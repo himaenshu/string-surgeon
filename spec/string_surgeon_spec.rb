@@ -56,20 +56,20 @@ describe 'string_surgeon' do
   #   chopped_str[:full_text].should eql(@test_string)
   # end
 
-  # it 'should not chop the string when truncate length equal to the string text' do
-  #   truncate_at = "Google is an American multinational corporation specializing in Internet-related services and products. These include search, cloud computing, software, and online advertising technologies."
-  #   chopped_str = @test_string.chop_at(truncate_at.length)
-  #   chopped_str[:truncated].should eql("Google is an American multinational <a href='http://www.google.com/corporation'>corporation</a> specializing in Internet-related services and products. These include search, <a href='http://www.google.co.in/cloud computing'>cloud computing</a>, software, and online advertising technologies.")
-  #   chopped_str[:remaining].should eql("")
-  #   chopped_str[:full_text].should eql(@test_string)
-  # end
+  it 'should not chop the string when truncate length equal to the string text' do
+    truncate_at = "Google is an American multinational corporation specializing in Internet-related services and products. These include search, cloud computing, software, and online advertising technologies."
+    chopped_str = @test_string.chop_at(truncate_at.length)
+    chopped_str[:truncated].should eql("Google is an American multinational <a href='http://www.google.com/corporation'>corporation</a> specializing in Internet-related services and products. These include search, <a href='http://www.google.co.in/cloud computing'>cloud computing</a>, software, and online advertising technologies.")
+    chopped_str[:remaining].should eql("")
+    chopped_str[:full_text].should eql(@test_string)
+  end
 
-  # it 'should not chop the string when truncate length greater than the string text' do
-  #   truncate_at = "Google is an American multinational corporation specializing in Internet-related services and products. These include search, cloud computing, software, and online advertising technologies."
-  #   chopped_str = @test_string.chop_at(truncate_at.length+5)
-  #   chopped_str[:truncated].should eql("Google is an American multinational <a href='http://www.google.com/corporation'>corporation</a> specializing in Internet-related services and products. These include search, <a href='http://www.google.co.in/cloud computing'>cloud computing</a>, software, and online advertising technologies.")
-  #   chopped_str[:remaining].should eql("")
-  #   chopped_str[:full_text].should eql(@test_string)
-  # end
+  it 'should not chop the string when truncate length greater than the string text' do
+    truncate_at = "Google is an American multinational corporation specializing in Internet-related services and products. These include search, cloud computing, software, and online advertising technologies."
+    chopped_str = @test_string.chop_at(truncate_at.length+5)
+    chopped_str[:truncated].should eql("Google is an American multinational <a href='http://www.google.com/corporation'>corporation</a> specializing in Internet-related services and products. These include search, <a href='http://www.google.co.in/cloud computing'>cloud computing</a>, software, and online advertising technologies.")
+    chopped_str[:remaining].should eql("")
+    chopped_str[:full_text].should eql(@test_string)
+  end
   
 end

@@ -8,20 +8,14 @@ module StringSurgeon
       str.scan(/<a.*? href=(\"|')(.*?)(\"|').*?>(.*?)<\/a>/i) do
         has_link = true
         href, left, right  = $&, $`, $'
-        p href
-        p left
-        p right
 
         left_text_length = text_length(left)
         if(left_text_length == num_chars)
-          p "num_chars length EQUALS left_text>>>>>>>>>>>>>>#{left_text_length}"
           truncated = left
           remaining = href + right
           break
 
         elsif(left_text_length > num_chars) # left part is bigger than number of characters
-          p "left_text length GREATER than num_chars >>>>>>>>>>>>>>#{left_text_length}"
-        
           # remove the extra delta from the left_part and add to remaining
           if left.length == left_text_length
             first_part_len = num_chars
@@ -34,22 +28,22 @@ module StringSurgeon
           break
           
         else
-          p "left_text length LESS than num_chars >>>>>>>>>>>>>>#{left_text_length}"
           truncated = left + truncate_link(href, (num_chars-left_text_length))
           remaining = right
           
           if(text_length(truncated) >= num_chars)
-            p "LESS 1"
             # don't bother if the left is bigger than required after adding link as it is already truncated
             break
           else
-            p "LESS 2"
             # if right doesn't have link get the remaining text from second_part - as it will skip the scan
             unless(right.match(/<a.*? href=(\"|')(.*?)(\"|').*?>(.*?)<\/a>/))
-              p "LESS 3"
               delta = num_chars - text_length(truncated)
+              #chopped_right = slit_at(right, delta)
+              #truncated += chopped_right[0]
+              #remaining = chopped_right[1]
+
               truncated += right[0..delta]
-              remaining = right[delta+1..right.length]
+              remaining = ((right.length<=delta) ? "" : right[delta+1..right.length])
               break
             end
           end
@@ -60,7 +54,7 @@ module StringSurgeon
       # string does not have any link
       unless(has_link)
         truncated = str[0..num_chars]
-        remaining = str[num_chars+1..str.length]
+        remaining = ( (str.length<=num_chars) ? "" : str[num_chars+1..str.length])
       end
 
       if (remaining.size==0)
@@ -70,10 +64,8 @@ module StringSurgeon
         truncated_text = truncated+"..."
         full_text = truncated+remaining
       end
-      p truncated
-      p "+++++++++++++++++++++++++++++++++++++"
 
-      [truncated_text, remaining, full_text]
+      [truncated_text, remaining, str]
     end
 
     def text_length(str)
