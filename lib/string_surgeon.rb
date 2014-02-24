@@ -6,7 +6,7 @@ class String
 
   def chop_at(chars_count)
     result = slit_at(self, chars_count)
-    {:truncated => result[0], :remaining => result[1], :full_text => result[2]}
+    {:truncated => result[0], :remaining => result[1], :full_text => self}
   end
 
   def truncate(chars_count)

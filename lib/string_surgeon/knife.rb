@@ -2,20 +2,17 @@ module StringSurgeon
   module Knife
 
     def slit_at(str, num_chars)
-      p "+++++++++++++++++++++++++++++++++++++"
-      p "num_chars>>>>>>>>>: #{num_chars}"
       truncated, remaining, has_link = "", "", false
       
       # scan the string for any presence of links and iterate through it
       str.scan(/<a.*? href=(\"|')(.*?)(\"|').*?>(.*?)<\/a>/i) do
         has_link = true
         href, left, right  = $&, $`, $'
-        p "left>>>>>>>>>>>#{left.length}"
+        p href
         p left
-        
-        #left_text = strip_links(left)
+        p right
+
         left_text_length = text_length(left)
-        
         if(left_text_length == num_chars)
           p "num_chars length EQUALS left_text>>>>>>>>>>>>>>#{left_text_length}"
           truncated = left
@@ -38,16 +35,18 @@ module StringSurgeon
           
         else
           p "left_text length LESS than num_chars >>>>>>>>>>>>>>#{left_text_length}"
-          truncated_href = truncate_label(href, (num_chars-left_text_length))
-          truncated = left + truncated_href
+          truncated = left + truncate_link(href, (num_chars-left_text_length))
           remaining = right
           
           if(text_length(truncated) >= num_chars)
+            p "LESS 1"
             # don't bother if the left is bigger than required after adding link as it is already truncated
             break
           else
+            p "LESS 2"
             # if right doesn't have link get the remaining text from second_part - as it will skip the scan
             unless(right.match(/<a.*? href=(\"|')(.*?)(\"|').*?>(.*?)<\/a>/))
+              p "LESS 3"
               delta = num_chars - text_length(truncated)
               truncated += right[0..delta]
               remaining = right[delta+1..right.length]
@@ -82,7 +81,7 @@ module StringSurgeon
       if str.match(/<a.*? href=(\"|')(.*?)(\"|').*?>(.*?)<\/a>/i)
         link, left, right  = $&, $`, $'
         #use more efficient regular expression to fetch link label 
-        label_match = link.match(/>([^>]+)<\/a>/)
+        label_match = link.match(/>([^>]+)<\/a>/)[0]
         if label_match
           txt_len = left.length + (label_match.length-5) + text_length(right)
         end
@@ -90,16 +89,16 @@ module StringSurgeon
       txt_len  
     end 
 
-    def truncate_label(link, len)
-      truncated_link = link
+    def truncate_link(link, len)
+      new_link = link
       if link.match(/>([^>]+)<\/a>/)
-        link_left, link_label = $`, $& 
-        if (link_label.length > len)
-          label = link_label[1..(link_label.length-5)]
-          truncated_link = (link_left+">"+label[0..(len-1)]+"...</a>") 
+        link_left, label_match = $`, $& 
+        label = label_match[1..(label_match.length-5)]
+        if (label.length > len)
+          new_link = (link_left+">"+label[0..(len-1)]+"</a>") 
         end
-      end  
-      truncated_link
+      end 
+      new_link
     end  
 
   end  
