@@ -42,8 +42,8 @@ module StringSurgeon
               #truncated += chopped_right[0]
               #remaining = chopped_right[1]
 
-              truncated += right[0..delta]
-              remaining = ((right.length<=delta) ? "" : right[delta+1..right.length])
+              truncated += right[0..(delta-1)]
+              remaining = ((right.length<delta) ? "" : right[delta..(right.length-1)])
               break
             end
           end
@@ -53,8 +53,8 @@ module StringSurgeon
 
       # string does not have any link
       unless(has_link)
-        truncated = str[0..num_chars]
-        remaining = ( (str.length<=num_chars) ? "" : str[num_chars+1..str.length])
+        truncated = str[0..(num_chars-1)]
+        remaining = ( (str.length<num_chars) ? "" : str[num_chars..(str.length-1)])
       end
 
       if (remaining.size==0)
@@ -72,7 +72,9 @@ module StringSurgeon
       txt_len = str.length
       if str.match(/<a.*? href=(\"|')(.*?)(\"|').*?>(.*?)<\/a>/i)
         link, left, right  = $&, $`, $'
-        #use more efficient regular expression to fetch link label 
+        #use more efficient regular expression to fetch link label
+        #matching 5 extra charaters - at the start 1 extra charater ">" 
+        #matching 5 extra charaters - at the end 4 extra charater "</a>" 
         label_match = link.match(/>([^>]+)<\/a>/)[0]
         if label_match
           txt_len = left.length + (label_match.length-5) + text_length(right)
