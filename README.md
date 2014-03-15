@@ -15,11 +15,11 @@ Features:
 
 Functions:
 
-1. truncate(n) returns the first n characters of the string, where n excludes the count of characters in link html tag. 
+1. truncate(n) returns the first n characters of the string, where n excludes the count of characters in link html tag.
 str = "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
 str.truncate(45) => "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Reposi...<a/>"
 
-2. remaining(n) returns the n+1 onwards characters of the string, where n excludes the count of characters in link html tag. 
+2. remaining(n) returns the n+1 onwards characters of the string, where n excludes the count of characters in link html tag.
 str = "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
 str.remaining(20) => "loaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
 
