@@ -16,14 +16,14 @@ Features:
 Functions:
 
 1. truncate(n) returns the first n characters of the string, where n excludes the characters of any link html tag in the string.
-   Example:
-   str = "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
-   str.truncate(45) => "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Reposi...<a/>"
+	Example:
+	str = "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
+	str.truncate(45) => "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Reposi...<a/>"
 
 2. remaining(n) returns the n+1 onwards characters of the string, where n excludes the count of characters in link html tag.
-   Example: 
-   str = "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
-   str.remaining(20) => "loaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
+	Example: 
+	str = "The code can be downloaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
+	str.remaining(20) => "loaded from <a href='https://github.com/himaenshu/string-surgeon'>Github Repository</a>."
 
 3. chop_at(n) returns truncate(n), remaining(n) and the string itself as hash items.
 
