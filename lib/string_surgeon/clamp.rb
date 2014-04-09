@@ -44,7 +44,10 @@ module StringSurgeon
 
       def sanitize_links str
         return '' unless str
-        (local_str = String.new(str)).split.grep(/http[s]?:\/\/\w/).each { |l| local_str.sub!(l, '') }
+        local_str = str
+        str.scan(/(<a[^>]*href=[\"|'][^>]+[\"|'][^>]*>([^<]*)<\/a>)/).each do |l|
+          local_str.sub!(l[0], l[1])
+        end 
         local_str
       end
 
